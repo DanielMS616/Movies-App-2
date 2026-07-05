@@ -13,6 +13,32 @@ body {
   font-size: 16pt;
 }
 
+.list-movies-title h1 {
+  margin: 0;
+}
+
+.list-movies-title p {
+  margin: 6px 0 0 0;
+  font-size: 0.8em;
+  opacity: 0.9;
+}
+
+.website-controls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+.website-controls input,
+.website-controls select {
+  padding: 8px 10px;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  font-family: Monaco;
+}
+
 /* The movie grid automatically creates new rows if there are many movies. */
 .movie-grid {
   list-style-type: none;

@@ -70,12 +70,17 @@ def fetch_movie_data(movie_title):
         movie_data.get("Country", "")
     )
 
+    poster_url = movie_data.get("Poster", "")
+
+    if poster_url == "N/A":
+        poster_url = ""
+
     # Keep only the values that our app needs.
     movie = {
         "title": movie_data["Title"],
         "year": int(movie_data["Year"][:4]),
         "rating": float(movie_data["imdbRating"]),
-        "poster_url": movie_data.get("Poster", ""),
+        "poster_url": poster_url,
         "imdb_url": f'https://www.imdb.com/title/{movie_data["imdbID"]}/',
         "country": country_info["country"],
         "flag_url": country_info["flag_url"],

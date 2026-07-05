@@ -1,11 +1,16 @@
 .venv/
 __pycache__/
 *.pyc
-movies.db
-*.png
 .DS_Store
 .idea/
 .env
-api_test.py
+
 data/*.db
+
+api_test.py
+test.py
+test_poster.py
 test_storage.py
+
+# Ignore generated histogram files in the project root
+/*.png

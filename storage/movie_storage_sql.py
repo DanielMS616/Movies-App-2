@@ -16,7 +16,7 @@ with engine.connect() as connection:
     connection.execute(text("""
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT UNIQUE NOT NULL
+            name TEXT COLLATE NOCASE UNIQUE NOT NULL
         )
     """))
 
@@ -88,7 +88,7 @@ def get_user_id(name):
 
     with engine.connect() as connection:
         result = connection.execute(
-            text("SELECT id FROM users WHERE name = :name"),
+            text("SELECT id FROM users WHERE LOWER(name) = LOWER(:name)"),
             {
                 "name": name
             }

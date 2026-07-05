@@ -1,5 +1,6 @@
 import random
 import difflib
+import html
 import movie_fetcher
 
 import matplotlib.pyplot as plt
@@ -14,6 +15,7 @@ GREEN = "\033[92m"
 RED = "\033[91m"
 BOLD = "\033[1m"
 
+FALLBACK_POSTER = "static/no_poster.png"
 
 def main():
     """
@@ -90,6 +92,7 @@ def create_user():
     """
 
     user_name = get_non_empty_title(GREEN + "Enter new user name: " + RESET)
+    user_name = normalize_user_name(user_name)
 
     # If the user already exists, use the existing profile.
     existing_user_id = storage.get_user_id(user_name)
@@ -589,31 +592,57 @@ def serialize_movie(title, movie_data):
     country = movie_data["country"]
     flag_url = movie_data["flag_url"]
 
+    # Use a local fallback image if the API does not provide a poster.
+    if poster_url is None or poster_url == "" or poster_url == "N/A":
+        poster_url = FALLBACK_POSTER
+
     if note is None:
         note = ""
 
+    if country is None:
+        country = ""
+
+    if flag_url is None:
+        flag_url = ""
+
+    # Escape text before writing it into HTML.
+    safe_title = html.escape(title)
+    safe_note = html.escape(note, quote=True)
+    safe_country = html.escape(country)
+    safe_title_attribute = html.escape(title.lower(), quote=True)
+    safe_country_attribute = html.escape(country.lower(), quote=True)
+
     output = ""
-    output += "        <li>\n"
+    output += (
+        f'        <li data-title="{safe_title_attribute}" '
+        f'data-year="{year}" '
+        f'data-rating="{rating}" '
+        f'data-country="{safe_country_attribute}" '
+        f'data-country-label="{safe_country}">\n'
+    )
     output += '            <div class="movie">\n'
     output += f'                <a href="{imdb_url}" target="_blank">\n'
     output += (
         f'                    <img class="movie-poster" '
         f'src="{poster_url}" '
-        f'title="{note}"/>\n'
+        f'title="{safe_note}"/>\n'
     )
     output += "                </a>\n"
-    output += f'                <div class="movie-title">{title}</div>\n'
+    output += f'                <div class="movie-title">{safe_title}</div>\n'
     output += f'                <div class="movie-year">{year}</div>\n'
     output += f'                <div class="movie-rating">Rating: {rating}</div>\n'
 
     if flag_url != "":
         output += (
             f'                <div class="movie-country">'
-            f'<img class="movie-flag" src="{flag_url}" alt="{country} flag"/> '
-            f'{country}</div>\n'
+            f'<img class="movie-flag" src="{flag_url}" alt="{safe_country} flag"/> '
+            f'<span class="movie-country-name">{safe_country}</span></div>\n'
         )
     else:
-        output += f'                <div class="movie-country">{country}</div>\n'
+        output += (
+            f'                <div class="movie-country">'
+            f'<span class="movie-country-name">{safe_country}</span></div>\n'
+        )
 
     output += "            </div>\n"
     output += "        </li>\n"
@@ -639,10 +668,19 @@ def generate_website(active_user_id, active_user_name):
         template = template_file.read()
 
     # Replace the placeholders with the user-specific app title and movie grid.
+    safe_user_name = html.escape(active_user_name)
+    movie_count = len(movies)
+
     html_output = template.replace(
         "__TEMPLATE_TITLE__",
-        f"{active_user_name}'s Movie App"
+        f"&#127916; {safe_user_name}'s Movie Vault"
     )
+
+    html_output = html_output.replace(
+        "__TEMPLATE_SUBTITLE__",
+        f"{movie_count} movies &middot; Personal collection"
+    )
+
     html_output = html_output.replace("__TEMPLATE_MOVIE_GRID__", movie_grid)
 
     # Write the final website.
@@ -650,6 +688,24 @@ def generate_website(active_user_id, active_user_name):
         output_file.write(html_output)
 
     print("Website was generated successfully.")
+
+
+def normalize_user_name(user_name):
+    """
+    Clean up a user name before saving or searching it.
+    Example: "  sara   müller  " becomes "Sara Müller".
+    """
+
+    # Remove spaces at the beginning and end.
+    cleaned_name = user_name.strip()
+
+    # Replace multiple spaces inside the name with one single space.
+    cleaned_name = " ".join(cleaned_name.split())
+
+    # Convert the name into a consistent format.
+    cleaned_name = cleaned_name.title()
+
+    return cleaned_name
 
 
 def get_non_empty_title(prompt):

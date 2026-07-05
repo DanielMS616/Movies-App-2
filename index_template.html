@@ -1,16 +1,38 @@
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>My Movie App</title>
     <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 <div class="list-movies-title">
     <h1>__TEMPLATE_TITLE__</h1>
+    <p>__TEMPLATE_SUBTITLE__</p>
 </div>
+
+<div class="website-controls">
+    <input id="movie-search" type="text" placeholder="Search movie..."/>
+
+    <select id="country-filter">
+        <option value="all">All countries</option>
+    </select>
+
+    <select id="sort-select">
+        <option value="default">Original order</option>
+        <option value="title">Title A-Z</option>
+        <option value="year-desc">Newest first</option>
+        <option value="year-asc">Oldest first</option>
+        <option value="rating-desc">Best rating</option>
+        <option value="rating-asc">Lowest rating</option>
+    </select>
+</div>
+
 <div>
     <ol class="movie-grid">
         __TEMPLATE_MOVIE_GRID__
     </ol>
 </div>
+
+<script src="script.js"></script>
 </body>
 </html>
