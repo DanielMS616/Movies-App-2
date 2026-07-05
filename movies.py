@@ -18,14 +18,21 @@ BOLD = "\033[1m"
 def main():
     """
     Start the movie database application.
-    Movie data is loaded from and saved to a SQLite database
-    through the storage module.
+    The user first selects a profile.
+    All movie actions are then connected to this active user.
     """
 
+    active_user_id, active_user_name = select_user()
+
     while True:
-        show_menu()
+        show_menu(active_user_name)
         choice = user_input()
-        keep_running = navigate_menu(choice)
+
+        if choice == 13:
+            active_user_id, active_user_name = select_user()
+            continue
+
+        keep_running = navigate_menu(choice, active_user_id, active_user_name)
 
         if keep_running is False:
             break
@@ -33,18 +40,88 @@ def main():
         input(GREEN + "\nDrücke Enter, um zum Menü zurückzukehren..." + RESET)
 
 
-def show_menu():
+def select_user():
+    """
+    Let the user select an existing profile or create a new one.
+    Returns the selected user's ID and name.
+    """
+
+    print(GREEN + BOLD + "\nWelcome to the Movie App!" + RESET)
+
+    while True:
+        users = storage.list_users()
+        user_items = list(users.items())
+
+        print()
+        print(GREEN + "Select a user:" + RESET)
+
+        # Show all existing users with simple menu numbers.
+        for index, user in enumerate(user_items, start=1):
+            user_id = user[0]
+            user_name = user[1]
+            print(f"{index}. {user_name}")
+
+        create_choice = len(user_items) + 1
+        print(f"{create_choice}. Create new user")
+
+        try:
+            choice = int(input(GREEN + "Enter choice: " + RESET))
+
+            if 1 <= choice <= len(user_items):
+                selected_user = user_items[choice - 1]
+                active_user_id = selected_user[0]
+                active_user_name = selected_user[1]
+
+                print(GREEN + f"Welcome back, {active_user_name}!" + RESET)
+                return active_user_id, active_user_name
+
+            if choice == create_choice:
+                return create_user()
+
+            print(RED + "Invalid choice. Please try again." + RESET)
+
+        except ValueError:
+            print(RED + "Please enter a valid number." + RESET)
+
+
+def create_user():
+    """
+    Create a new user profile and return the new user's ID and name.
+    """
+
+    user_name = get_non_empty_title(GREEN + "Enter new user name: " + RESET)
+
+    # If the user already exists, use the existing profile.
+    existing_user_id = storage.get_user_id(user_name)
+
+    if existing_user_id is not None:
+        print(GREEN + f"User {user_name} already exists." + RESET)
+        return existing_user_id, user_name
+
+    storage.add_user(user_name)
+    user_id = storage.get_user_id(user_name)
+
+    print(GREEN + f"User {user_name} created." + RESET)
+    return user_id, user_name
+
+
+def show_menu(active_user_name):
     """
     Display the main menu.
-    Shows all available menu options to the user, including the exit option.
+    Shows all available menu options and the active user profile.
     """
 
     print()
 
     title = pyfiglet.figlet_format("Movie DB", font="slant")
     print(GREEN + BOLD + title + RESET)
+
+    user_line = f"Aktiver Nutzer: {active_user_name}"
+
     print(GREEN + "╔════════════════════════════════════╗" + RESET)
     print(GREEN + "║                MENÜ                ║" + RESET)
+    print(GREEN + "╠════════════════════════════════════╣" + RESET)
+    print(GREEN + f"║ {user_line:<34} ║" + RESET)
     print(GREEN + "╠════════════════════════════════════╣" + RESET)
     print(GREEN + "║ 0. Exit                            ║" + RESET)
     print(GREEN + "║ 1. Alle Filme anzeigen             ║" + RESET)
@@ -59,6 +136,7 @@ def show_menu():
     print(GREEN + "║ 10. Filme nach Jahr sortieren.     ║" + RESET)
     print(GREEN + "║ 11. Filme filtern                  ║" + RESET)
     print(GREEN + "║ 12. Website generieren             ║" + RESET)
+    print(GREEN + "║ 13. Nutzer wechseln                ║" + RESET)
     print(GREEN + "╚════════════════════════════════════╝" + RESET)
     print()
 
@@ -66,20 +144,20 @@ def show_menu():
 def user_input():
     """
     Ask the user for a valid menu choice.
-    Keeps asking until the user enters a number between 0 and 11.
+    Keeps asking until the user enters a number between 0 and 13.
     """
 
     while True:
         try:
-            choice = int(input(GREEN + "➜ Wähle eine der Optionen (0-12): " + RESET))
+            choice = int(input(GREEN + "➜ Wähle eine der Optionen (0-13): " + RESET))
 
-            if 0 <= choice <= 12:
+            if 0 <= choice <= 13:
                 return choice
 
             print(RED + "Ungültige Eingabe, bitte versuche es erneut." + RESET)
 
         except ValueError:
-            print(RED + "Ungültige Eingabe, bitte gebe eine Zahl zwischen 0 und 12 ein." + RESET)
+            print(RED + "Ungültige Eingabe, bitte gebe eine Zahl zwischen 0 und 13 ein." + RESET)
 
 
 def exit_program():
@@ -92,15 +170,15 @@ def exit_program():
     return False
 
 
-def navigate_menu(choice):
+def navigate_menu(choice, active_user_id, active_user_name):
     """
-    Run the selected menu command.
-    Uses a dispatch dictionary to connect the user's menu choice
-    with the matching function.
+    Run the selected menu command for the active user.
     """
 
+    if choice == 0:
+        return exit_program()
+
     command_dict = {
-        0: exit_program,
         1: list_movies,
         2: add_movie,
         3: delete_movie,
@@ -116,25 +194,21 @@ def navigate_menu(choice):
     }
 
     command_function = command_dict[choice]
-    result = command_function()
-
-    if result is False:
-        return False
+    command_function(active_user_id, active_user_name)
 
     return True
 
 
-def list_movies():
+def list_movies(active_user_id, active_user_name):
     """
-    Print all movies in the database.
-    Shows each movie with its title, release year and rating.
+    Print all movies for the active user.
     """
 
-    movies = storage.list_movies()
+    movies = storage.list_movies(active_user_id)
 
     print()
     num_items = len(movies)
-    print(GREEN + BOLD + f"{num_items} Filme insgesamt" + RESET)
+    print(GREEN + BOLD + f"{active_user_name}: {num_items} Filme insgesamt" + RESET)
     print(GREEN + "────────────────────────────────────" + RESET)
 
     for title, movie_data in movies.items():
@@ -144,22 +218,16 @@ def list_movies():
         print(f"{title} ({year}): {rating}")
 
 
-def add_movie():
+def add_movie(active_user_id, active_user_name):
     """
-    Add a new movie to the database.
-    Asks the user for a title, fetches movie data from the OMDb API,
-    and stores the movie in the SQLite database.
+    Add a new movie to the active user's movie collection.
     """
 
-    movies = storage.list_movies()
+    movies = storage.list_movies(active_user_id)
 
     movie_title = get_non_empty_title(
         GREEN + "Welchen Film möchtest du hinzufügen: " + RESET
     )
-
-    if movie_title in movies:
-        print(RED + f"{movie_title} existiert bereits." + RESET)
-        return
 
     # Fetch the movie information from the OMDb API.
     movie_data = movie_fetcher.fetch_movie_data(movie_title)
@@ -169,42 +237,49 @@ def add_movie():
         print(RED + "Der Film konnte nicht hinzugefügt werden." + RESET)
         return
 
+    if movie_data["title"] in movies:
+        print(RED + f'{movie_data["title"]} existiert bereits.' + RESET)
+        return
+
     storage.add_movie(
+        active_user_id,
         movie_data["title"],
         movie_data["year"],
         movie_data["rating"],
         movie_data["poster_url"]
     )
 
-    print(GREEN + f'{movie_data["title"]} erfolgreich hinzugefügt' + RESET)
+    print(
+        GREEN
+        + f'{movie_data["title"]} wurde zu {active_user_name}s Sammlung hinzugefügt.'
+        + RESET
+    )
 
 
-def delete_movie():
+def delete_movie(active_user_id, active_user_name):
     """
-    Delete a movie from the database.
-    Asks for a non-empty title and deletes the movie if it exists.
+    Delete a movie from the active user's movie collection.
     """
 
-    movies = storage.list_movies()
+    movies = storage.list_movies(active_user_id)
 
     movie_title = get_non_empty_title(
         GREEN + "Welchen Film möchtest du entfernen? " + RESET
     )
 
     if movie_title in movies:
-        storage.delete_movie(movie_title)
+        storage.delete_movie(active_user_id, movie_title)
         print(GREEN + f"{movie_title} wurde gelöscht." + RESET)
     else:
         print(RED + f"Der Film {movie_title} existiert nicht." + RESET)
 
 
-def change_movie():
+def change_movie(active_user_id, active_user_name):
     """
-    Update the rating of an existing movie.
-    Asks for a non-empty title and a valid rating, then updates the movie.
+    Update the rating of an existing movie in the active user's collection.
     """
 
-    movies = storage.list_movies()
+    movies = storage.list_movies(active_user_id)
 
     movie_title = get_non_empty_title(
         GREEN + "Gebe den Filmtitel ein: " + RESET
@@ -212,20 +287,20 @@ def change_movie():
 
     if movie_title in movies:
         new_rating = get_rating()
-        storage.update_movie(movie_title, new_rating)
+        storage.update_movie(active_user_id, movie_title, new_rating)
         print(GREEN + f"{movie_title} wurde aktualisiert" + RESET)
     else:
         print(RED + f"Der Film {movie_title} existiert nicht." + RESET)
 
 
-def stats():
+def stats(active_user_id, active_user_name):
     """
     Print statistics about the movie ratings.
     Calculates the average rating, median rating, best-rated movie
     and worst-rated movie.
     """
 
-    movies = storage.list_movies()
+    movies = storage.list_movies(active_user_id)
 
     if len(movies) == 0:
         print(RED + "Keine Filme in der Datenbank." + RESET)
@@ -270,13 +345,13 @@ def stats():
             print(f'{title} ({movie_data["year"]}): {movie_data["rating"]}')
 
 
-def random_movie():
+def random_movie(active_user_id, active_user_name):
     """
     Print a random movie from the database.
     Selects one movie from the database and displays its title, year and rating.
     """
 
-    movies = storage.list_movies()
+    movies = storage.list_movies(active_user_id)
 
     if len(movies) == 0:
         print(RED + "Keine Filme in der Datenbank." + RESET)
@@ -291,13 +366,13 @@ def random_movie():
     print(GREEN + f"Zufälliger Film: {title} ({year}) - {rating}" + RESET)
 
 
-def search_movie():
+def search_movie(active_user_id, active_user_name):
     """
     Search for movies by title.
     Rejects empty search input and finds movies by partial title match.
     """
 
-    movies = storage.list_movies()
+    movies = storage.list_movies(active_user_id)
 
     search_title = get_non_empty_title(GREEN + "Suche Titel: " + RESET)
     search_title_lower = search_title.lower()
@@ -332,14 +407,14 @@ def search_movie():
             print(RED + f'Der Film "{search_title}" existiert nicht.' + RESET)
 
 
-def movie_ranking():
+def movie_ranking(active_user_id, active_user_name):
     """
     Print movies sorted by rating.
     Creates a sortable list from the movie database and displays
     the movies from highest to lowest rating.
     """
 
-    movies = storage.list_movies()
+    movies = storage.list_movies(active_user_id)
 
     if len(movies) == 0:
         print(RED + "Keine Filme in der Datenbank." + RESET)
@@ -366,14 +441,14 @@ def movie_ranking():
         print(f"{title} ({year}), {rating}")
 
 
-def create_rating_histogramm():
+def create_rating_histogramm(active_user_id, active_user_name):
     """
     Create a histogram of movie ratings.
     Collects all ratings from the movie database and saves
     the histogram as a PNG file.
     """
 
-    movies = storage.list_movies()
+    movies = storage.list_movies(active_user_id)
 
     if len(movies) == 0:
         print(RED + "Keine Filme in der Datenbank." + RESET)
@@ -401,14 +476,14 @@ def create_rating_histogramm():
     print(GREEN + f"Histogramm wurde als {filename} gespeichert." + RESET)
 
 
-def movie_ranking_by_year():
+def movie_ranking_by_year(active_user_id, active_user_name):
     """
     Print movies sorted by release year.
     Asks the user whether the newest movies should be shown first
     or last, then displays all movies with title, year and rating.
     """
 
-    movies = storage.list_movies()
+    movies = storage.list_movies(active_user_id)
 
     if len(movies) == 0:
         print(RED + "Keine Filme in der Datenbank." + RESET)
@@ -450,14 +525,14 @@ def movie_ranking_by_year():
         print(f"{title} ({year}): {rating}")
 
 
-def filter_movies():
+def filter_movies(active_user_id, active_user_name):
     """
     Filter movies by minimum rating, start year and end year.
     Empty input means that the related filter should not be used.
     Invalid numeric input asks the user to try again.
     """
 
-    movies = storage.list_movies()
+    movies = storage.list_movies(active_user_id)
 
     min_rating = get_optional_float(
         GREEN + "Enter minimum rating (leave blank for no minimum rating): " + RESET
@@ -519,15 +594,12 @@ def serialize_movie(title, movie_data):
     return output
 
 
-def generate_website():
+def generate_website(active_user_id, active_user_name):
     """
-    Generate an HTML website from the movies in the database.
+    Generate an HTML website from the active user's movie collection.
     """
 
-    movies = storage.list_movies()
-
-    print(f"Generating website for {len(movies)} movies.")
-    print(movies)
+    movies = storage.list_movies(active_user_id)
 
     movie_grid = ""
 
@@ -539,8 +611,11 @@ def generate_website():
     with open("index_template.html", "r", encoding="utf-8") as template_file:
         template = template_file.read()
 
-    # Replace the placeholders with the app title and movie grid.
-    html_output = template.replace("__TEMPLATE_TITLE__", "My Movie App")
+    # Replace the placeholders with the user-specific app title and movie grid.
+    html_output = template.replace(
+        "__TEMPLATE_TITLE__",
+        f"{active_user_name}'s Movie App"
+    )
     html_output = html_output.replace("__TEMPLATE_MOVIE_GRID__", movie_grid)
 
     # Write the final website.
