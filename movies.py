@@ -5,7 +5,7 @@ import movie_fetcher
 import matplotlib.pyplot as plt
 import pyfiglet
 
-import movie_storage_sql as storage
+from storage import movie_storage_sql as storage
 
 
 # Terminal colors

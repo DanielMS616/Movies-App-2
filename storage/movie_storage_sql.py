@@ -1,13 +1,17 @@
 from sqlalchemy import create_engine, text
 
 
-DB_URL = "sqlite:///movies.db"
+# The database file is stored in the data folder.
+# This keeps database files separate from the Python code.
+DB_URL = "sqlite:///data/movies.db"
 
+# Create the database connection.
 # echo=False keeps the terminal output clean.
 engine = create_engine(DB_URL, echo=False)
 
 
 # Create the movies table if it does not exist yet.
+# The poster_url column stores the movie poster image URL from the API.
 with engine.connect() as connection:
     connection.execute(text("""
         CREATE TABLE IF NOT EXISTS movies (
