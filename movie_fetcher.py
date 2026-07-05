@@ -71,6 +71,7 @@ def fetch_movie_data(movie_title):
         "year": int(movie_data["Year"][:4]),
         "rating": float(movie_data["imdbRating"]),
         "poster_url": movie_data.get("Poster", ""),
+        "imdb_url": f'https://www.imdb.com/title/{movie_data["imdbID"]}/',
     }
 
     return movie

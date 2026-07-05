@@ -246,7 +246,8 @@ def add_movie(active_user_id, active_user_name):
         movie_data["title"],
         movie_data["year"],
         movie_data["rating"],
-        movie_data["poster_url"]
+        movie_data["poster_url"],
+        movie_data["imdb_url"]
     )
 
     print(
@@ -582,6 +583,7 @@ def serialize_movie(title, movie_data):
     year = movie_data["year"]
     rating = movie_data["rating"]
     note = movie_data["note"]
+    imdb_url = movie_data["imdb_url"]
 
     if note is None:
         note = ""
@@ -589,11 +591,13 @@ def serialize_movie(title, movie_data):
     output = ""
     output += "        <li>\n"
     output += '            <div class="movie">\n'
+    output += f'                <a href="{imdb_url}" target="_blank">\n'
     output += (
-        f'                <img class="movie-poster" '
+        f'                    <img class="movie-poster" '
         f'src="{poster_url}" '
         f'title="{note}"/>\n'
     )
+    output += "                </a>\n"
     output += f'                <div class="movie-title">{title}</div>\n'
     output += f'                <div class="movie-year">{year}</div>\n'
     output += f'                <div class="movie-rating">Rating: {rating}</div>\n'
