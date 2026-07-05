@@ -8,3 +8,4 @@ movies.db
 .env
 api_test.py
 data/*.db
+test_storage.py
