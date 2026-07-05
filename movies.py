@@ -580,6 +580,7 @@ def serialize_movie(title, movie_data):
 
     poster_url = movie_data["poster_url"]
     year = movie_data["year"]
+    rating = movie_data["rating"]
     note = movie_data["note"]
 
     if note is None:
@@ -595,6 +596,7 @@ def serialize_movie(title, movie_data):
     )
     output += f'                <div class="movie-title">{title}</div>\n'
     output += f'                <div class="movie-year">{year}</div>\n'
+    output += f'                <div class="movie-rating">Rating: {rating}</div>\n'
     output += "            </div>\n"
     output += "        </li>\n"
 
