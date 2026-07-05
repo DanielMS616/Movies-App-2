@@ -31,6 +31,7 @@ with engine.connect() as connection:
             year INTEGER NOT NULL,
             rating REAL NOT NULL,
             poster_url TEXT,
+            note TEXT,
             UNIQUE(title, user_id),
             FOREIGN KEY(user_id) REFERENCES users(id)
         )
@@ -107,7 +108,7 @@ def list_movies(user_id):
     with engine.connect() as connection:
         result = connection.execute(
             text("""
-                SELECT title, year, rating, poster_url
+                SELECT title, year, rating, poster_url, note
                 FROM movies
                 WHERE user_id = :user_id
             """),
@@ -121,7 +122,8 @@ def list_movies(user_id):
         row[0]: {
             "year": row[1],
             "rating": row[2],
-            "poster_url": row[3]
+            "poster_url": row[3],
+            "note": row[4]
         }
         for row in movies
     }
@@ -178,7 +180,7 @@ def delete_movie(user_id, title):
             print(f"Error: {error}")
 
 
-def update_movie(user_id, title, rating):
+def update_movie(user_id, title, note):
     """
     Update a movie rating in one user's movie collection.
     """
@@ -189,14 +191,14 @@ def update_movie(user_id, title, rating):
             connection.execute(
                 text("""
                     UPDATE movies
-                    SET rating = :rating
+                    SET note = :note
                     WHERE user_id = :user_id
                     AND title = :title
                 """),
                 {
                     "user_id": user_id,
                     "title": title,
-                    "rating": rating
+                    "note": note
                 }
             )
             connection.commit()

@@ -127,7 +127,7 @@ def show_menu(active_user_name):
     print(GREEN + "║ 1. Alle Filme anzeigen             ║" + RESET)
     print(GREEN + "║ 2. Neuen Film hinzufügen           ║" + RESET)
     print(GREEN + "║ 3. Film aus DB entfernen           ║" + RESET)
-    print(GREEN + "║ 4. Filmbewertung anpassen          ║" + RESET)
+    print(GREEN + "║ 4. Filmnotiz anpassen              ║" + RESET)
     print(GREEN + "║ 5. Stats                           ║" + RESET)
     print(GREEN + "║ 6. Zufälliger Film                 ║" + RESET)
     print(GREEN + "║ 7. Filmsuche                       ║" + RESET)
@@ -276,7 +276,8 @@ def delete_movie(active_user_id, active_user_name):
 
 def change_movie(active_user_id, active_user_name):
     """
-    Update the rating of an existing movie in the active user's collection.
+    Add or update a note for an existing movie
+    in the active user's collection.
     """
 
     movies = storage.list_movies(active_user_id)
@@ -286,9 +287,10 @@ def change_movie(active_user_id, active_user_name):
     )
 
     if movie_title in movies:
-        new_rating = get_rating()
-        storage.update_movie(active_user_id, movie_title, new_rating)
-        print(GREEN + f"{movie_title} wurde aktualisiert" + RESET)
+        movie_note = input(GREEN + "Gebe eine Notiz zum Film ein: " + RESET).strip()
+
+        storage.update_movie(active_user_id, movie_title, movie_note)
+        print(GREEN + f"{movie_title} wurde aktualisiert." + RESET)
     else:
         print(RED + f"Der Film {movie_title} existiert nicht." + RESET)
 
@@ -578,13 +580,18 @@ def serialize_movie(title, movie_data):
 
     poster_url = movie_data["poster_url"]
     year = movie_data["year"]
+    note = movie_data["note"]
+
+    if note is None:
+        note = ""
 
     output = ""
     output += "        <li>\n"
     output += '            <div class="movie">\n'
     output += (
         f'                <img class="movie-poster" '
-        f'src="{poster_url}"/>\n'
+        f'src="{poster_url}" '
+        f'title="{note}"/>\n'
     )
     output += f'                <div class="movie-title">{title}</div>\n'
     output += f'                <div class="movie-year">{year}</div>\n'
