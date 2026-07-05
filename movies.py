@@ -58,6 +58,7 @@ def show_menu():
     print(GREEN + "║ 9. Bewertungs-Histogramm erstellen ║" + RESET)
     print(GREEN + "║ 10. Filme nach Jahr sortieren.     ║" + RESET)
     print(GREEN + "║ 11. Filme filtern                  ║" + RESET)
+    print(GREEN + "║ 12. Website generieren             ║" + RESET)
     print(GREEN + "╚════════════════════════════════════╝" + RESET)
     print()
 
@@ -70,15 +71,15 @@ def user_input():
 
     while True:
         try:
-            choice = int(input(GREEN + "➜ Wähle eine der Optionen (0-11): " + RESET))
+            choice = int(input(GREEN + "➜ Wähle eine der Optionen (0-12): " + RESET))
 
-            if 0 <= choice <= 11:
+            if 0 <= choice <= 12:
                 return choice
 
             print(RED + "Ungültige Eingabe, bitte versuche es erneut." + RESET)
 
         except ValueError:
-            print(RED + "Ungültige Eingabe, bitte gebe eine Zahl zwischen 0 und 11 ein." + RESET)
+            print(RED + "Ungültige Eingabe, bitte gebe eine Zahl zwischen 0 und 12 ein." + RESET)
 
 
 def exit_program():
@@ -110,7 +111,8 @@ def navigate_menu(choice):
         8: movie_ranking,
         9: create_rating_histogramm,
         10: movie_ranking_by_year,
-        11: filter_movies
+        11: filter_movies,
+        12: generate_website
     }
 
     command_function = command_dict[choice]
@@ -492,6 +494,60 @@ def filter_movies():
 
     if found is False:
         print(RED + "Keine passenden Filme gefunden." + RESET)
+
+
+def serialize_movie(title, movie_data):
+    """
+    Convert one movie into an HTML list item.
+    """
+
+    poster_url = movie_data["poster_url"]
+    year = movie_data["year"]
+
+    output = ""
+    output += "        <li>\n"
+    output += '            <div class="movie">\n'
+    output += (
+        f'                <img class="movie-poster" '
+        f'src="{poster_url}"/>\n'
+    )
+    output += f'                <div class="movie-title">{title}</div>\n'
+    output += f'                <div class="movie-year">{year}</div>\n'
+    output += "            </div>\n"
+    output += "        </li>\n"
+
+    return output
+
+
+def generate_website():
+    """
+    Generate an HTML website from the movies in the database.
+    """
+
+    movies = storage.list_movies()
+
+    print(f"Generating website for {len(movies)} movies.")
+    print(movies)
+
+    movie_grid = ""
+
+    # Create one HTML block for every movie.
+    for title, movie_data in movies.items():
+        movie_grid += serialize_movie(title, movie_data)
+
+    # Read the HTML template.
+    with open("index_template.html", "r", encoding="utf-8") as template_file:
+        template = template_file.read()
+
+    # Replace the placeholders with the app title and movie grid.
+    html_output = template.replace("__TEMPLATE_TITLE__", "My Movie App")
+    html_output = html_output.replace("__TEMPLATE_MOVIE_GRID__", movie_grid)
+
+    # Write the final website.
+    with open("index.html", "w", encoding="utf-8") as output_file:
+        output_file.write(html_output)
+
+    print("Website was generated successfully.")
 
 
 def get_non_empty_title(prompt):
