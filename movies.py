@@ -1,12 +1,12 @@
 import random
 import difflib
 import html
-import movie_fetcher
 
 import matplotlib.pyplot as plt
 import pyfiglet
 
 from storage import movie_storage_sql as storage
+from api import movie_fetcher
 
 
 # Terminal colors
@@ -664,7 +664,7 @@ def generate_website(active_user_id, active_user_name):
         movie_grid += serialize_movie(title, movie_data)
 
     # Read the HTML template.
-    with open("index_template.html", "r", encoding="utf-8") as template_file:
+    with open("templates/index_template.html", "r", encoding="utf-8") as template_file:
         template = template_file.read()
 
     # Replace the placeholders with the user-specific app title and movie grid.

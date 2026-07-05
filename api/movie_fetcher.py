@@ -1,8 +1,9 @@
 import os
 
-import country_fetcher
 import requests
+
 from dotenv import load_dotenv
+from api import country_fetcher
 
 
 API_URL = "http://www.omdbapi.com/"
