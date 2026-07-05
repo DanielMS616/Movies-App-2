@@ -1,5 +1,6 @@
 import random
 import difflib
+import movie_fetcher
 
 import matplotlib.pyplot as plt
 import pyfiglet
@@ -144,8 +145,8 @@ def list_movies():
 def add_movie():
     """
     Add a new movie to the database.
-    Asks the user for title, rating and release year, validates the input,
-    and stores the movie in the SQLite database through the storage module.
+    Asks the user for a title, fetches movie data from the OMDb API,
+    and stores the movie in the SQLite database.
     """
 
     movies = storage.list_movies()
@@ -158,12 +159,22 @@ def add_movie():
         print(RED + f"{movie_title} existiert bereits." + RESET)
         return
 
-    rating = get_rating()
-    year = get_year()
+    # Fetch the movie information from the OMDb API.
+    movie_data = movie_fetcher.fetch_movie_data(movie_title)
 
-    storage.add_movie(movie_title, year, rating)
+    # Stop if the movie was not found or the API request failed.
+    if movie_data is None:
+        print(RED + "Der Film konnte nicht hinzugefügt werden." + RESET)
+        return
 
-    print(GREEN + f"{movie_title} erfolgreich hinzugefügt" + RESET)
+    storage.add_movie(
+        movie_data["title"],
+        movie_data["year"],
+        movie_data["rating"],
+        movie_data["poster_url"]
+    )
+
+    print(GREEN + f'{movie_data["title"]} erfolgreich hinzugefügt' + RESET)
 
 
 def delete_movie():

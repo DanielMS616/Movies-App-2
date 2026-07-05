@@ -3,8 +3,7 @@ from sqlalchemy import create_engine, text
 
 DB_URL = "sqlite:///movies.db"
 
-# echo=True shows the executed SQL commands in the terminal.
-# This is useful while developing and testing.
+# echo=False keeps the terminal output clean.
 engine = create_engine(DB_URL, echo=False)
 
 
@@ -25,19 +24,20 @@ with engine.connect() as connection:
 def list_movies():
     """
     Retrieve all movies from the database.
-    Returns a dictionary in the same structure as the old JSON storage.
+    Returns a dictionary in the same structure used by movies.py.
     """
 
     with engine.connect() as connection:
         result = connection.execute(
-            text("SELECT title, year, rating FROM movies")
+            text("SELECT title, year, rating, poster_url FROM movies")
         )
         movies = result.fetchall()
 
     return {
         row[0]: {
             "year": row[1],
-            "rating": row[2]
+            "rating": row[2],
+            "poster_url": row[3]
         }
         for row in movies
     }
@@ -45,14 +45,14 @@ def list_movies():
 
 def get_movies():
     """
-    Compatibility function for the existing movies.py code.
+    Compatibility function for older code.
     It returns the same result as list_movies().
     """
 
     return list_movies()
 
 
-def add_movie(title, year, rating):
+def add_movie(title, year, rating, poster_url):
     """
     Add a new movie to the database.
     """
@@ -61,19 +61,20 @@ def add_movie(title, year, rating):
         try:
             connection.execute(
                 text("""
-                    INSERT INTO movies (title, year, rating)
-                    VALUES (:title, :year, :rating)
+                    INSERT INTO movies (title, year, rating, poster_url)
+                    VALUES (:title, :year, :rating, :poster_url)
                 """),
                 {
                     "title": title,
                     "year": year,
-                    "rating": rating
+                    "rating": rating,
+                    "poster_url": poster_url
                 }
             )
             connection.commit()
 
-        except Exception as e:
-            print(f"Error: {e}")
+        except Exception as error:
+            print(f"Error: {error}")
 
 
 def delete_movie(title):
@@ -91,8 +92,8 @@ def delete_movie(title):
             )
             connection.commit()
 
-        except Exception as e:
-            print(f"Error: {e}")
+        except Exception as error:
+            print(f"Error: {error}")
 
 
 def update_movie(title, rating):
@@ -115,5 +116,5 @@ def update_movie(title, rating):
             )
             connection.commit()
 
-        except Exception as e:
-            print(f"Error: {e}")
+        except Exception as error:
+            print(f"Error: {error}")
