@@ -1,0 +1,11 @@
+<svg width="1000" height="180" viewBox="0 0 1000 180" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1000" height="180" rx="18" fill="#009B50"></rect>
+
+  <text x="500" y="78" text-anchor="middle" font-family="Arial, sans-serif" font-size="44" font-weight="700" fill="white">
+    🎬 Movie Vault
+  </text>
+
+  <text x="500" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="white" opacity="0.9">
+    Personal movie collections · API powered · SQLite based
+  </text>
+</svg>

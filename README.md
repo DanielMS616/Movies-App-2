@@ -1,4 +1,6 @@
-# Movie Vault
+<p align="center">
+  <img src="docs/readme_header.svg" alt="Movie Vault Header" width="100%">
+</p>
 
 Movie Vault is a Python movie collection app with a terminal menu, SQLite database storage, API integration and a generated HTML website.
 
@@ -46,6 +48,8 @@ movieproject2/
 │   └── movie_fetcher.py
 ├── data/
 │   └── .gitkeep
+├── docs/
+│   └── readme_header.svg
 ├── static/
 │   ├── no_poster.png
 │   ├── script.js

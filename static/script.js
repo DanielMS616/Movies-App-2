@@ -6,7 +6,7 @@ const countryFilter = document.getElementById("country-filter");
 const sortSelect = document.getElementById("sort-select");
 
 movieItems.forEach((movieItem, index) => {
-  movieItem.dataset.index = index;
+  movieItem.dataset.index = String(index);
 });
 
 function fillCountryFilter() {

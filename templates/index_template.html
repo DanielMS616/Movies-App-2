@@ -1,4 +1,4 @@
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>My Movie App</title>
@@ -11,12 +11,15 @@
 </div>
 
 <div class="website-controls">
+    <label class="visually-hidden" for="movie-search">Search movie</label>
     <input id="movie-search" type="text" placeholder="Search movie..."/>
 
+    <label class="visually-hidden" for="country-filter">Filter by country</label>
     <select id="country-filter">
         <option value="all">All countries</option>
     </select>
 
+    <label class="visually-hidden" for="sort-select">Sort movies</label>
     <select id="sort-select">
         <option value="default">Original order</option>
         <option value="title">Title A-Z</option>

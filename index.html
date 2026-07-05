@@ -1,4 +1,4 @@
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>My Movie App</title>
@@ -7,16 +7,19 @@
 <body>
 <div class="list-movies-title">
     <h1>&#127916; John's Movie Vault</h1>
-    <p>17 movies &middot; Personal collection</p>
+    <p>18 movies &middot; Personal collection</p>
 </div>
 
 <div class="website-controls">
+    <label class="visually-hidden" for="movie-search">Search movie</label>
     <input id="movie-search" type="text" placeholder="Search movie..."/>
 
+    <label class="visually-hidden" for="country-filter">Filter by country</label>
     <select id="country-filter">
         <option value="all">All countries</option>
     </select>
 
+    <label class="visually-hidden" for="sort-select">Sort movies</label>
     <select id="sort-select">
         <option value="default">Original order</option>
         <option value="title">Title A-Z</option>
@@ -31,8 +34,8 @@
     <ol class="movie-grid">
                 <li data-title="12 angry men" data-year="1957" data-rating="9.0" data-country="united states" data-country-label="United States">
             <div class="movie">
-                <a href="https://www.imdb.com/title/tt0050083/" target="_blank">
-                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BYjE4NzdmOTYtYjc5Yi00YzBiLWEzNDEtNTgxZGQ2MWVkN2NiXkEyXkFqcGc@._V1_QL75_UX380_CR0,11,380,562_.jpg" title="angryyyy"/>
+                <a href="https://www.imdb.com/title/tt0050083/" target="_blank" rel="noopener noreferrer">
+                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BYjE4NzdmOTYtYjc5Yi00YzBiLWEzNDEtNTgxZGQ2MWVkN2NiXkEyXkFqcGc@._V1_QL75_UX380_CR0,11,380,562_.jpg" alt="12 Angry Men poster" title="angryyyy"/>
                 </a>
                 <div class="movie-title">12 Angry Men</div>
                 <div class="movie-year">1957</div>
@@ -42,8 +45,8 @@
         </li>
         <li data-title="saving private ryan" data-year="1998" data-rating="8.6" data-country="united states" data-country-label="United States">
             <div class="movie">
-                <a href="https://www.imdb.com/title/tt0120815/" target="_blank">
-                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BZGZhZGQ1ZWUtZTZjYS00MDJhLWFkYjctN2ZlYjE5NWYwZDM2XkEyXkFqcGc@._V1_QL75_UY562_CR1,0,380,562_.jpg" title=""/>
+                <a href="https://www.imdb.com/title/tt0120815/" target="_blank" rel="noopener noreferrer">
+                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BZGZhZGQ1ZWUtZTZjYS00MDJhLWFkYjctN2ZlYjE5NWYwZDM2XkEyXkFqcGc@._V1_QL75_UY562_CR1,0,380,562_.jpg" alt="Saving Private Ryan poster" title=""/>
                 </a>
                 <div class="movie-title">Saving Private Ryan</div>
                 <div class="movie-year">1998</div>
@@ -53,8 +56,8 @@
         </li>
         <li data-title="the green mile" data-year="1999" data-rating="8.6" data-country="united states" data-country-label="United States">
             <div class="movie">
-                <a href="https://www.imdb.com/title/tt0120689/" target="_blank">
-                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BMTUxMzQyNjA5MF5BMl5BanBnXkFtZTYwOTU2NTY3._V1_QL75_UX380_CR0,0,380,562_.jpg" title=""/>
+                <a href="https://www.imdb.com/title/tt0120689/" target="_blank" rel="noopener noreferrer">
+                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BMTUxMzQyNjA5MF5BMl5BanBnXkFtZTYwOTU2NTY3._V1_QL75_UX380_CR0,0,380,562_.jpg" alt="The Green Mile poster" title=""/>
                 </a>
                 <div class="movie-title">The Green Mile</div>
                 <div class="movie-year">1999</div>
@@ -64,8 +67,8 @@
         </li>
         <li data-title="life is beautiful" data-year="1997" data-rating="8.6" data-country="italy" data-country-label="Italy">
             <div class="movie">
-                <a href="https://www.imdb.com/title/tt0118799/" target="_blank">
-                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BZTBhOGYzZjQtYzE0Mi00MGIwLWE0MWYtNzMxNTM2OTFkM2NjXkEyXkFqcGc@._V1_QL75_UX380_CR0,2,380,562_.jpg" title=""/>
+                <a href="https://www.imdb.com/title/tt0118799/" target="_blank" rel="noopener noreferrer">
+                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BZTBhOGYzZjQtYzE0Mi00MGIwLWE0MWYtNzMxNTM2OTFkM2NjXkEyXkFqcGc@._V1_QL75_UX380_CR0,2,380,562_.jpg" alt="Life Is Beautiful poster" title=""/>
                 </a>
                 <div class="movie-title">Life Is Beautiful</div>
                 <div class="movie-year">1997</div>
@@ -75,8 +78,8 @@
         </li>
         <li data-title="seven samurai" data-year="1954" data-rating="8.6" data-country="japan" data-country-label="Japan">
             <div class="movie">
-                <a href="https://www.imdb.com/title/tt0047478/" target="_blank">
-                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BZjliMWExOTMtZDQ3ZS00NWU3LWIyN2EtMjllNzk3ZTNlYzg4XkEyXkFqcGc@._V1_SX300.jpg" title=""/>
+                <a href="https://www.imdb.com/title/tt0047478/" target="_blank" rel="noopener noreferrer">
+                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BZjliMWExOTMtZDQ3ZS00NWU3LWIyN2EtMjllNzk3ZTNlYzg4XkEyXkFqcGc@._V1_SX300.jpg" alt="Seven Samurai poster" title=""/>
                 </a>
                 <div class="movie-title">Seven Samurai</div>
                 <div class="movie-year">1954</div>
@@ -86,8 +89,8 @@
         </li>
         <li data-title="the silence of the lambs" data-year="1991" data-rating="8.6" data-country="united states" data-country-label="United States">
             <div class="movie">
-                <a href="https://www.imdb.com/title/tt0102926/" target="_blank">
-                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BNDdhOGJhYzctYzYwZC00YmI2LWI0MjctYjg4ODdlMDExYjBlXkEyXkFqcGc@._V1_QL75_UY562_CR1,0,380,562_.jpg" title=""/>
+                <a href="https://www.imdb.com/title/tt0102926/" target="_blank" rel="noopener noreferrer">
+                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BNDdhOGJhYzctYzYwZC00YmI2LWI0MjctYjg4ODdlMDExYjBlXkEyXkFqcGc@._V1_QL75_UY562_CR1,0,380,562_.jpg" alt="The Silence of the Lambs poster" title=""/>
                 </a>
                 <div class="movie-title">The Silence of the Lambs</div>
                 <div class="movie-year">1991</div>
@@ -97,8 +100,8 @@
         </li>
         <li data-title="back to the future" data-year="1985" data-rating="8.5" data-country="united states" data-country-label="United States">
             <div class="movie">
-                <a href="https://www.imdb.com/title/tt0088763/" target="_blank">
-                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BZmM3ZjE0NzctNjBiOC00MDZmLTgzMTUtNGVlOWFlOTNiZDJiXkEyXkFqcGc@._V1_QL75_UX380_CR0,14,380,562_.jpg" title=""/>
+                <a href="https://www.imdb.com/title/tt0088763/" target="_blank" rel="noopener noreferrer">
+                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BZmM3ZjE0NzctNjBiOC00MDZmLTgzMTUtNGVlOWFlOTNiZDJiXkEyXkFqcGc@._V1_QL75_UX380_CR0,14,380,562_.jpg" alt="Back to the Future poster" title=""/>
                 </a>
                 <div class="movie-title">Back to the Future</div>
                 <div class="movie-year">1985</div>
@@ -108,8 +111,8 @@
         </li>
         <li data-title="gladiator" data-year="2000" data-rating="8.5" data-country="united states" data-country-label="United States">
             <div class="movie">
-                <a href="https://www.imdb.com/title/tt0172495/" target="_blank">
-                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BYWQ4YmNjYjEtOWE1Zi00Y2U4LWI4NTAtMTU0MjkxNWQ1ZmJiXkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg" title=""/>
+                <a href="https://www.imdb.com/title/tt0172495/" target="_blank" rel="noopener noreferrer">
+                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BYWQ4YmNjYjEtOWE1Zi00Y2U4LWI4NTAtMTU0MjkxNWQ1ZmJiXkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg" alt="Gladiator poster" title=""/>
                 </a>
                 <div class="movie-title">Gladiator</div>
                 <div class="movie-year">2000</div>
@@ -119,8 +122,8 @@
         </li>
         <li data-title="spirited away" data-year="2003" data-rating="8.6" data-country="japan" data-country-label="Japan">
             <div class="movie">
-                <a href="https://www.imdb.com/title/tt0245429/" target="_blank">
-                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BNTEyNmEwOWUtYzkyOC00ZTQ4LTllZmUtMjk0Y2YwOGUzYjRiXkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg" title=""/>
+                <a href="https://www.imdb.com/title/tt0245429/" target="_blank" rel="noopener noreferrer">
+                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BNTEyNmEwOWUtYzkyOC00ZTQ4LTllZmUtMjk0Y2YwOGUzYjRiXkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg" alt="Spirited Away poster" title=""/>
                 </a>
                 <div class="movie-title">Spirited Away</div>
                 <div class="movie-year">2003</div>
@@ -130,8 +133,8 @@
         </li>
         <li data-title="harakiri" data-year="1964" data-rating="8.6" data-country="japan" data-country-label="Japan">
             <div class="movie">
-                <a href="https://www.imdb.com/title/tt0056058/" target="_blank">
-                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BZThiZjU5ZDQtZDI4Mi00ZGYyLTkzOTktYmIzZTFlZTkxYzg5XkEyXkFqcGc@._V1_QL75_UY562_CR5,0,380,562_.jpg" title=""/>
+                <a href="https://www.imdb.com/title/tt0056058/" target="_blank" rel="noopener noreferrer">
+                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BZThiZjU5ZDQtZDI4Mi00ZGYyLTkzOTktYmIzZTFlZTkxYzg5XkEyXkFqcGc@._V1_QL75_UY562_CR5,0,380,562_.jpg" alt="Harakiri poster" title=""/>
                 </a>
                 <div class="movie-title">Harakiri</div>
                 <div class="movie-year">1964</div>
@@ -141,8 +144,8 @@
         </li>
         <li data-title="psycho" data-year="1960" data-rating="8.5" data-country="united states" data-country-label="United States">
             <div class="movie">
-                <a href="https://www.imdb.com/title/tt0054215/" target="_blank">
-                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BYjZhMzFiZjItODA3ZC00MmRhLWIzMGYtMmVjOWUwYTA3MTRjXkEyXkFqcGc@._V1_QL75_UX380_CR0,1,380,562_.jpg" title=""/>
+                <a href="https://www.imdb.com/title/tt0054215/" target="_blank" rel="noopener noreferrer">
+                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BYjZhMzFiZjItODA3ZC00MmRhLWIzMGYtMmVjOWUwYTA3MTRjXkEyXkFqcGc@._V1_QL75_UX380_CR0,1,380,562_.jpg" alt="Psycho poster" title=""/>
                 </a>
                 <div class="movie-title">Psycho</div>
                 <div class="movie-year">1960</div>
@@ -152,8 +155,8 @@
         </li>
         <li data-title="wolf" data-year="1994" data-rating="6.3" data-country="united states" data-country-label="United States">
             <div class="movie">
-                <a href="https://www.imdb.com/title/tt0111742/" target="_blank">
-                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BMjJkYmE5NjItMGMyNi00NjNmLTg3MDMtNzg5NWU4MmVhZmQ0XkEyXkFqcGc@._V1_SX300.jpg" title=""/>
+                <a href="https://www.imdb.com/title/tt0111742/" target="_blank" rel="noopener noreferrer">
+                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BMjJkYmE5NjItMGMyNi00NjNmLTg3MDMtNzg5NWU4MmVhZmQ0XkEyXkFqcGc@._V1_SX300.jpg" alt="Wolf poster" title=""/>
                 </a>
                 <div class="movie-title">Wolf</div>
                 <div class="movie-year">1994</div>
@@ -163,8 +166,8 @@
         </li>
         <li data-title="wallstreet" data-year="1997" data-rating="7.7" data-country="germany" data-country-label="Germany">
             <div class="movie">
-                <a href="https://www.imdb.com/title/tt0127352/" target="_blank">
-                    <img class="movie-poster" src="static/no_poster.png" title=""/>
+                <a href="https://www.imdb.com/title/tt0127352/" target="_blank" rel="noopener noreferrer">
+                    <img class="movie-poster" src="static/no_poster.png" alt="Wallstreet poster" title=""/>
                 </a>
                 <div class="movie-title">Wallstreet</div>
                 <div class="movie-year">1997</div>
@@ -174,8 +177,8 @@
         </li>
         <li data-title="modern times" data-year="1936" data-rating="8.5" data-country="united states" data-country-label="United States">
             <div class="movie">
-                <a href="https://www.imdb.com/title/tt0027977/" target="_blank">
-                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BODVkZGFhNGQtYjdiYi00Njc4LWFmYTItNTlmNzJjMTg1ZDc5XkEyXkFqcGc@._V1_SX300.jpg" title=""/>
+                <a href="https://www.imdb.com/title/tt0027977/" target="_blank" rel="noopener noreferrer">
+                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BODVkZGFhNGQtYjdiYi00Njc4LWFmYTItNTlmNzJjMTg1ZDc5XkEyXkFqcGc@._V1_SX300.jpg" alt="Modern Times poster" title=""/>
                 </a>
                 <div class="movie-title">Modern Times</div>
                 <div class="movie-year">1936</div>
@@ -185,8 +188,8 @@
         </li>
         <li data-title="amélie" data-year="2002" data-rating="8.3" data-country="france" data-country-label="France">
             <div class="movie">
-                <a href="https://www.imdb.com/title/tt0211915/" target="_blank">
-                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BOTNmYzY0MWQtZGZmNy00Y2Y4LWFmMDQtMTZjYTdiYzEwZGQ2XkEyXkFqcGc@._V1_QL75_UX380_CR0,4,380,562_.jpg" title=""/>
+                <a href="https://www.imdb.com/title/tt0211915/" target="_blank" rel="noopener noreferrer">
+                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BOTNmYzY0MWQtZGZmNy00Y2Y4LWFmMDQtMTZjYTdiYzEwZGQ2XkEyXkFqcGc@._V1_QL75_UX380_CR0,4,380,562_.jpg" alt="Amélie poster" title=""/>
                 </a>
                 <div class="movie-title">Amélie</div>
                 <div class="movie-year">2002</div>
@@ -196,8 +199,8 @@
         </li>
         <li data-title="breaking" data-year="2022" data-rating="6.3" data-country="united states" data-country-label="United States">
             <div class="movie">
-                <a href="https://www.imdb.com/title/tt12311620/" target="_blank">
-                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BODA2NjJhZWMtOGIwOC00NGI2LWFlMmEtMmQ2YzVhN2VlYzgzXkEyXkFqcGc@._V1_SX300.jpg" title=""/>
+                <a href="https://www.imdb.com/title/tt12311620/" target="_blank" rel="noopener noreferrer">
+                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BODA2NjJhZWMtOGIwOC00NGI2LWFlMmEtMmQ2YzVhN2VlYzgzXkEyXkFqcGc@._V1_SX300.jpg" alt="Breaking poster" title=""/>
                 </a>
                 <div class="movie-title">Breaking</div>
                 <div class="movie-year">2022</div>
@@ -207,12 +210,23 @@
         </li>
         <li data-title="breaking bad" data-year="2008" data-rating="9.5" data-country="united states" data-country-label="United States">
             <div class="movie">
-                <a href="https://www.imdb.com/title/tt0903747/" target="_blank">
-                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BMzU5ZGYzNmQtMTdhYy00OGRiLTg0NmQtYjVjNzliZTg1ZGE4XkEyXkFqcGc@._V1_QL75_UX380_CR0,4,380,562_.jpg" title=""/>
+                <a href="https://www.imdb.com/title/tt0903747/" target="_blank" rel="noopener noreferrer">
+                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BMzU5ZGYzNmQtMTdhYy00OGRiLTg0NmQtYjVjNzliZTg1ZGE4XkEyXkFqcGc@._V1_QL75_UX380_CR0,4,380,562_.jpg" alt="Breaking Bad poster" title=""/>
                 </a>
                 <div class="movie-title">Breaking Bad</div>
                 <div class="movie-year">2008</div>
                 <div class="movie-rating">Rating: 9.5</div>
+                <div class="movie-country"><img class="movie-flag" src="https://api-ninjas-data.s3.us-west-2.amazonaws.com/flags/4x3/8L07WqeX/us.svg" alt="United States flag"/> <span class="movie-country-name">United States</span></div>
+            </div>
+        </li>
+        <li data-title="titanic" data-year="1997" data-rating="8.0" data-country="united states" data-country-label="United States">
+            <div class="movie">
+                <a href="https://www.imdb.com/title/tt0120338/" target="_blank" rel="noopener noreferrer">
+                    <img class="movie-poster" src="https://m.media-amazon.com/images/M/MV5BYzYyN2FiZmUtYWYzMy00MzViLWJkZTMtOGY1ZjgzNWMwN2YxXkEyXkFqcGc@._V1_QL75_UX380_CR0,2,380,562_.jpg" alt="Titanic poster" title=""/>
+                </a>
+                <div class="movie-title">Titanic</div>
+                <div class="movie-year">1997</div>
+                <div class="movie-rating">Rating: 8.0</div>
                 <div class="movie-country"><img class="movie-flag" src="https://api-ninjas-data.s3.us-west-2.amazonaws.com/flags/4x3/8L07WqeX/us.svg" alt="United States flag"/> <span class="movie-country-name">United States</span></div>
             </div>
         </li>

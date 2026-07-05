@@ -17,6 +17,7 @@ BOLD = "\033[1m"
 
 FALLBACK_POSTER = "static/no_poster.png"
 
+
 def main():
     """
     Start the movie database application.
@@ -36,7 +37,7 @@ def main():
 
         keep_running = navigate_menu(choice, active_user_id, active_user_name)
 
-        if keep_running is False:
+        if not keep_running:
             break
 
         input(GREEN + "\nDrücke Enter, um zum Menü zurückzukehren..." + RESET)
@@ -395,7 +396,7 @@ def search_movie(active_user_id, active_user_name):
             print(f"{title} ({year}): {rating}")
             found = True
 
-    if found is False:
+    if not found:
         movie_titles = list(movies.keys())
 
         similar_movies = difflib.get_close_matches(
@@ -575,7 +576,7 @@ def filter_movies(active_user_id, active_user_name):
         print(f"{title} ({year}): {rating}")
         found = True
 
-    if found is False:
+    if not found:
         print(RED + "Keine passenden Filme gefunden." + RESET)
 
 
@@ -621,10 +622,14 @@ def serialize_movie(title, movie_data):
         f'data-country-label="{safe_country}">\n'
     )
     output += '            <div class="movie">\n'
-    output += f'                <a href="{imdb_url}" target="_blank">\n'
+    output += (
+        f'                <a href="{imdb_url}" '
+        f'target="_blank" rel="noopener noreferrer">\n'
+    )
     output += (
         f'                    <img class="movie-poster" '
         f'src="{poster_url}" '
+        f'alt="{safe_title} poster" '
         f'title="{safe_note}"/>\n'
     )
     output += "                </a>\n"
@@ -664,7 +669,11 @@ def generate_website(active_user_id, active_user_name):
         movie_grid += serialize_movie(title, movie_data)
 
     # Read the HTML template.
-    with open("templates/index_template.html", "r", encoding="utf-8") as template_file:
+    with open(
+            "templates/index_template.html",
+            "r",
+            encoding="utf-8"
+    ) as template_file:
         template = template_file.read()
 
     # Replace the placeholders with the user-specific app title and movie grid.
