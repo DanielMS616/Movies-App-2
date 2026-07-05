@@ -33,6 +33,8 @@ with engine.connect() as connection:
             poster_url TEXT,
             note TEXT,
             imdb_url TEXT,
+            country TEXT,
+            flag_url TEXT,
             UNIQUE(title, user_id),
             FOREIGN KEY(user_id) REFERENCES users(id)
         )
@@ -109,7 +111,7 @@ def list_movies(user_id):
     with engine.connect() as connection:
         result = connection.execute(
             text("""
-                SELECT title, year, rating, poster_url, note, imdb_url
+                SELECT title, year, rating, poster_url, note, imdb_url, country, flag_url
                 FROM movies
                 WHERE user_id = :user_id
             """),
@@ -125,13 +127,15 @@ def list_movies(user_id):
             "rating": row[2],
             "poster_url": row[3],
             "note": row[4],
-            "imdb_url": row[5]
+            "imdb_url": row[5],
+            "country": row[6],
+            "flag_url": row[7]
         }
         for row in movies
     }
 
 
-def add_movie(user_id, title, year, rating, poster_url, imdb_url):
+def add_movie(user_id, title, year, rating, poster_url, imdb_url, country, flag_url):
     """
     Add a new movie to one user's movie collection.
     """
@@ -146,7 +150,9 @@ def add_movie(user_id, title, year, rating, poster_url, imdb_url):
                         year,
                         rating,
                         poster_url,
-                        imdb_url
+                        imdb_url,
+                        country,
+                        flag_url
                     )
                     VALUES (
                         :user_id,
@@ -154,7 +160,9 @@ def add_movie(user_id, title, year, rating, poster_url, imdb_url):
                         :year,
                         :rating,
                         :poster_url,
-                        :imdb_url
+                        :imdb_url,
+                        :country,
+                        :flag_url
                     )
                 """),
                 {
@@ -163,7 +171,9 @@ def add_movie(user_id, title, year, rating, poster_url, imdb_url):
                     "year": year,
                     "rating": rating,
                     "poster_url": poster_url,
-                    "imdb_url": imdb_url
+                    "imdb_url": imdb_url,
+                    "country": country,
+                    "flag_url": flag_url
                 }
             )
             connection.commit()

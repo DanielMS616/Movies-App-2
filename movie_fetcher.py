@@ -1,5 +1,6 @@
 import os
 
+import country_fetcher
 import requests
 from dotenv import load_dotenv
 
@@ -65,6 +66,10 @@ def fetch_movie_data(movie_title):
         print(f'Movie "{movie_title}" has no IMDb rating.')
         return None
 
+    country_info = country_fetcher.fetch_flag_data(
+        movie_data.get("Country", "")
+    )
+
     # Keep only the values that our app needs.
     movie = {
         "title": movie_data["Title"],
@@ -72,6 +77,8 @@ def fetch_movie_data(movie_title):
         "rating": float(movie_data["imdbRating"]),
         "poster_url": movie_data.get("Poster", ""),
         "imdb_url": f'https://www.imdb.com/title/{movie_data["imdbID"]}/',
+        "country": country_info["country"],
+        "flag_url": country_info["flag_url"],
     }
 
     return movie

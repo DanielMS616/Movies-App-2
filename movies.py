@@ -247,7 +247,9 @@ def add_movie(active_user_id, active_user_name):
         movie_data["year"],
         movie_data["rating"],
         movie_data["poster_url"],
-        movie_data["imdb_url"]
+        movie_data["imdb_url"],
+        movie_data["country"],
+        movie_data["flag_url"]
     )
 
     print(
@@ -584,6 +586,8 @@ def serialize_movie(title, movie_data):
     rating = movie_data["rating"]
     note = movie_data["note"]
     imdb_url = movie_data["imdb_url"]
+    country = movie_data["country"]
+    flag_url = movie_data["flag_url"]
 
     if note is None:
         note = ""
@@ -601,6 +605,16 @@ def serialize_movie(title, movie_data):
     output += f'                <div class="movie-title">{title}</div>\n'
     output += f'                <div class="movie-year">{year}</div>\n'
     output += f'                <div class="movie-rating">Rating: {rating}</div>\n'
+
+    if flag_url != "":
+        output += (
+            f'                <div class="movie-country">'
+            f'<img class="movie-flag" src="{flag_url}" alt="{country} flag"/> '
+            f'{country}</div>\n'
+        )
+    else:
+        output += f'                <div class="movie-country">{country}</div>\n'
+
     output += "            </div>\n"
     output += "        </li>\n"
 
