@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+movies.db
+*.png
+.DS_Store
+.idea/
