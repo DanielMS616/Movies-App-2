@@ -1,3 +1,5 @@
 matplotlib
 pyfiglet
 sqlalchemy
+requests
+python-dotenv

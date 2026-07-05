@@ -5,3 +5,5 @@ movies.db
 *.png
 .DS_Store
 .idea/
+.env
+api_test.py
